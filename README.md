@@ -58,9 +58,9 @@ and Cloudflare deployment remain independent.
 Product-specific behavior stays in
 <code>assets/styles/product-continuation.css</code>
 and <code>assets/scripts/product-continuation.js</code>.
-Visible branding always uses the constructed HTML/CSS mark. The shared
-Kaizōsha raster icon is reserved for favicon, Apple touch icon, manifest, and
-metadata use.
+Visible branding always uses the constructed HTML/CSS mark. The shared SVG
+keeps its Japanese glyphs as real text for supporting browsers; the PNG is the
+Apple touch, PWA, and metadata fallback.
 
 ## Social preview
 
