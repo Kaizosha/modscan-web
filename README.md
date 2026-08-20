@@ -29,6 +29,13 @@ python3 tools/dev-server.py 5173
 The build recreates <code>dist/client</code> and
 <code>dist/server/index.js</code>. Generated output is ignored by Git.
 
+## Cloudflare deployment
+
+The repository is ready for Cloudflare Workers Builds with repository root `/`,
+build command `./tools/build-site.sh`, and deploy command `npx wrangler deploy`.
+Attach `modscan.kaizosha.org` as the Worker's custom domain after the first
+deploy.
+
 ## Routes
 
 - <code>/</code> — permanently expanded ModScan product surface
@@ -59,11 +66,11 @@ and Cloudflare deployment remain independent.
 Product-specific behavior stays in
 <code>assets/styles/product-continuation.css</code>,
 <code>assets/scripts/product-continuation.js</code>, and the ModScan worker.
-Visible branding always uses the constructed HTML/CSS mark. The raster icon is
-reserved for favicon, Apple touch icon, manifest, and metadata use.
+Visible branding always uses the constructed HTML/CSS mark. The shared
+Kaizōsha raster icon is reserved for favicon, Apple touch icon, manifest, and
+metadata use.
 
 ## Social preview
 
-Root metadata expects the product card at
-<code>assets/media/social/modscan-social-card.png</code>. The build copies that
-file when present and otherwise succeeds without generating a placeholder.
+Root metadata and the production build include the 1200 × 630 product card at
+<code>assets/media/social/modscan-social-card.png</code>.
