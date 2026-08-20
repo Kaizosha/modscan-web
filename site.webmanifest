@@ -1,0 +1,18 @@
+{
+  "name": "ModScan by Kaizōsha",
+  "short_name": "ModScan",
+  "description": "A keyboard-first Node.js terminal interface for finding, comparing, and removing project node_modules directories.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#101010",
+  "theme_color": "#101010",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f4f4ef" media="(prefers-color-scheme: light)">
+    <title>Privacy Notice — ModScan</title>
+    <meta name="description" content="How the local ModScan command-line tool reads filesystem metadata, keeps scan state, and handles deletion.">
+    <meta name="author" content="Kaizōsha">
+    <meta name="publisher" content="Kaizōsha">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="application-name" content="ModScan">
+    <link rel="icon" type="image/png" sizes="1024x1024" href="/icon.png?v=20260820-shared-mark">
+    <link rel="apple-touch-icon" href="/icon.png?v=20260820-shared-mark">
+    <link rel="manifest" href="/site.webmanifest?v=20260820-modscan">
+    <link rel="canonical" href="https://modscan.kaizosha.org/privacy">
+    <meta property="og:title" content="Privacy Notice — ModScan">
+    <meta property="og:description" content="How the local ModScan command-line tool reads filesystem metadata, keeps scan state, and handles deletion.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://modscan.kaizosha.org/privacy">
+    <meta property="og:site_name" content="ModScan by Kaizōsha">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Privacy Notice — ModScan">
+    <meta name="twitter:description" content="How the local ModScan command-line tool reads filesystem metadata, keeps scan state, and handles deletion.">
+    <meta name="twitter:site" content="@KaizoshaX">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "url": "https://modscan.kaizosha.org/privacy",
+        "name": "Privacy Notice — ModScan",
+        "description": "How the local ModScan command-line tool reads filesystem metadata, keeps scan state, and handles deletion.",
+        "dateModified": "2026-08-20",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "url": "https://modscan.kaizosha.org/",
+          "name": "ModScan"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Kaizōsha",
+          "url": "https://kaizosha.org/"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/styles/markdown.css?v=20260820-shared">
+    <link rel="stylesheet" href="/assets/styles/product-continuation.css?v=20260820-modscan">
+    <script src="/assets/scripts/site-motion.js?v=20260818-dynamic-grid" defer></script>
+    <script src="/assets/scripts/document-navigation.js?v=20260814-scroll-gutter" defer></script>
+  </head>
+  <body id="top" data-page-family="document" data-page="privacy">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <main class="main" id="main-content" data-file="modscan-privacy.md" tabindex="-1">
+      <nav class="document-nav" aria-label="Document navigation">
+        <a class="document-back" href="/" aria-label="Back to ModScan">← Back</a>
+        <span>/ ModScan Privacy Notice</span>
+      </nav>
+
+      <section class="section" id="notice">
+        <header class="section-head">
+          <h1 class="section-title">ModScan Privacy Notice</h1>
+        </header>
+        <div class="body-lines">
+          <p>ModScan is a local command-line tool from Kaizōsha. This notice describes the behavior found in the current published ModScan 1.0.1 source. Kaizōsha's website has a separate privacy policy for visits to this website.</p>
+          <p class="document-meta">Last updated: August 20, 2026</p>
+        </div>
+      </section>
+
+      <section class="section" id="collection">
+        <header class="section-head"><h2 class="section-title">DATA COLLECTED BY KAIZŌSHA</h2></header>
+        <div class="body-lines">
+          <p>ModScan 1.0.1 has no account, advertising, analytics, tracking, crash-report upload, cloud-sync service, or runtime network-request code. Kaizōsha does not receive filesystem paths, project names, directory sizes, modification dates, scan results, or deletion activity through ModScan.</p>
+          <p>ModScan does not sell or share scan data with advertisers, data brokers, or analytics providers.</p>
+        </div>
+      </section>
+
+      <section class="section" id="local-processing">
+        <header class="section-head"><h2 class="section-title">LOCAL FILESYSTEM ACCESS</h2></header>
+        <div class="body-lines">
+          <p>A default scan recursively inspects the current working directory. A --global scan inspects the home folder, common development locations, and available Windows drives while skipping inaccessible, hidden, cache, and selected system paths.</p>
+          <p>ModScan reads file and directory metadata to calculate size and modification age. It reads a parent project's package.json file to obtain the project name shown in the terminal. This processing happens in the local Node.js process.</p>
+        </div>
+      </section>
+
+      <section class="section" id="state">
+        <header class="section-head"><h2 class="section-title">SESSION STATE</h2></header>
+        <div class="body-lines">
+          <p>Scan results, filter state, sort state, and the running total of freed space are held in memory for the current terminal session. The current release does not create a scan database or upload scan results.</p>
+          <p>Closing ModScan ends that in-memory session. ModScan does not provide an account or cross-device synchronization.</p>
+        </div>
+      </section>
+
+      <section class="section" id="deletion">
+        <header class="section-head"><h2 class="section-title">PERMANENT DELETION</h2></header>
+        <div class="body-lines">
+          <div class="document-warning" role="note" aria-label="Permanent deletion warning">
+            <strong>Capital D or lower-case dd immediately and recursively deletes the selected node_modules directory.</strong>
+            The current v1.0.1 release asks for no confirmation and does not move the directory to Trash. ModScan has no built-in rollback. Verify the selected project and path before using either shortcut.
+          </div>
+          <p>The deleted directory's former size is added to the in-memory freed-space total. ModScan does not send the selected path or deletion result to Kaizōsha.</p>
+        </div>
+      </section>
+
+      <section class="section" id="network">
+        <header class="section-head"><h2 class="section-title">INSTALLATION AND NETWORK ACTIVITY</h2></header>
+        <div class="body-lines">
+          <p>The ModScan runtime itself does not make network requests. Installing or launching ModScan through npm or npx requires npm to retrieve the package and is governed by npm's own terms, configuration, and privacy practices.</p>
+          <p>Links opened from this product website are handled by the destination website and browser, not by the ModScan command-line runtime.</p>
+        </div>
+      </section>
+
+      <section class="section" id="website">
+        <header class="section-head"><h2 class="section-title">PRODUCT WEBSITE</h2></header>
+        <div class="body-lines">
+          <p>This notice covers the ModScan command-line tool, not visits to modscan.kaizosha.org or kaizosha.org. Website visits are governed by the <a href="https://kaizosha.org/privacy">Kaizōsha website privacy policy</a>.</p>
+        </div>
+      </section>
+
+      <section class="section" id="changes">
+        <header class="section-head"><h2 class="section-title">CHANGES AND CONTACT</h2></header>
+        <div class="body-lines">
+          <p>If ModScan's data practices change, this notice will be updated to describe the changed release.</p>
+          <p>Questions about ModScan privacy can be sent through the Kaizōsha contact page: <a href="https://kaizosha.org/contact">https://kaizosha.org/contact</a>.</p>
+        </div>
+      </section>
+
+      <footer class="document-footer">
+        <a href="/">ModScan</a>
+        <a href="/privacy" aria-current="page">Tool Privacy</a>
+        <a href="https://kaizosha.org/privacy">Website Privacy</a>
+        <a href="#top">Back to top</a>
+      </footer>
+    </main>
+  </body>
+</html>
