@@ -28,11 +28,10 @@ immediately:
 
 The main site may pass the active product slot as
 <code>?slot=top-left</code>, <code>?slot=top-right</code>,
-<code>?slot=bottom-left</code>, or <code>?slot=bottom-right</code>. The worker
-renders that slot into the returned root HTML before first paint. The small
-plain-JavaScript controller provides the same swap as a static-hosting fallback
-and removes the temporary query parameter. Direct visits use ModScan's canonical
-bottom-right slot.
+<code>?slot=bottom-left</code>, or <code>?slot=bottom-right</code>. The
+synchronous plain-JavaScript controller applies that slot during the initial
+document render and removes the temporary query parameter. Direct visits use
+ModScan's canonical bottom-right slot.
 
 ## Shared layers
 
@@ -43,23 +42,22 @@ bottom-right slot.
   long active-cell continuation and terminal-oriented content primitives.
 - <code>assets/scripts/site-motion.js</code> and
   <code>document-navigation.js</code> are shared progressive enhancements.
-- <code>assets/scripts/product-continuation.js</code> handles the static-host
-  product-slot fallback and URL cleanup.
+- <code>assets/scripts/product-continuation.js</code> applies the incoming
+  product slot and cleans the temporary URL state.
 
 No product-specific content, classes, filenames, or behavior from sibling sites
 is part of the ModScan implementation.
 
-## Build and hosting
+## Cloudflare Pages hosting
 
-<code>tools/build-site.sh</code> recreates <code>dist</code> from an explicit
-allowlist. Public files go to <code>dist/client</code>, and
-<code>tools/sites-static-worker.js</code> becomes
-<code>dist/server/index.js</code>.
-
-The worker handles HTTPS, canonical redirects, GET and HEAD restriction, cache
-policy, security headers, 404 no-index headers, and server-side product-slot
-rendering. Static assets are served through the Cloudflare <code>ASSETS</code>
-binding configured in <code>wrangler.jsonc</code>.
+The repository root is the complete public site. Cloudflare Pages connects to
+the Git repository with framework preset <code>None</code>, production branch
+<code>main</code>, no build command, and build output directory
+<code>.</code>. A push to <code>main</code> publishes the committed static files
+directly. Pages supplies extensionless HTML routing and the custom
+<code>404.html</code>; <code>_redirects</code> canonicalizes
+<code>/privacy/</code>, and <code>_headers</code> supplies the security, cache,
+language, and no-index policies.
 
 There is no frontend dependency, package manager, TypeScript, framework,
 runtime API, database, account, or analytics service.

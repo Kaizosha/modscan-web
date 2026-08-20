@@ -20,21 +20,14 @@ routes.
 python3 tools/dev-server.py 5173
 ~~~
 
-## Production build
+## Cloudflare Pages
 
-~~~sh
-./tools/build-site.sh
-~~~
-
-The build recreates <code>dist/client</code> and
-<code>dist/server/index.js</code>. Generated output is ignored by Git.
-
-## Cloudflare deployment
-
-The repository is ready for Cloudflare Workers Builds with repository root `/`,
-build command `./tools/build-site.sh`, and deploy command `npx wrangler deploy`.
-Attach `modscan.kaizosha.org` as the Worker's custom domain after the first
-deploy.
+The repository root is the deployable website. Connect this repository to a
+Cloudflare Pages project with framework preset <code>None</code>, production
+branch <code>main</code>, no build command, and build output directory
+<code>.</code>. Every push to <code>main</code> publishes the committed static
+files directly; there is no generated output or manual deployment command.
+Attach <code>modscan.kaizosha.org</code> as the Pages custom domain.
 
 ## Routes
 
@@ -45,8 +38,7 @@ deploy.
   <code>/sitemap.xml</code> — product and search metadata
 
 There is no package manager, frontend framework, TypeScript, runtime API,
-database, account, analytics SDK, or build dependency. The explicit build
-allowlist produces the static client and Cloudflare Worker entrypoint.
+database, account, analytics SDK, build dependency, or server process.
 
 ## Product source
 
@@ -64,13 +56,13 @@ JavaScript foundations. This site commits synchronized copies so its repository
 and Cloudflare deployment remain independent.
 
 Product-specific behavior stays in
-<code>assets/styles/product-continuation.css</code>,
-<code>assets/scripts/product-continuation.js</code>, and the ModScan worker.
+<code>assets/styles/product-continuation.css</code>
+and <code>assets/scripts/product-continuation.js</code>.
 Visible branding always uses the constructed HTML/CSS mark. The shared
 Kaizōsha raster icon is reserved for favicon, Apple touch icon, manifest, and
 metadata use.
 
 ## Social preview
 
-Root metadata and the production build include the 1200 × 630 product card at
+Root metadata references the committed 1200 × 630 product card at
 <code>assets/media/social/modscan-social-card.png</code>.
