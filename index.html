@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
+    <script>document.documentElement.classList.add("product-page-booting");</script>
     <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#f4f4ef" media="(prefers-color-scheme: light)">
     <title>ModScan — Kaizōsha</title>
@@ -59,8 +60,8 @@
       }
     </script>
     <link rel="stylesheet" href="/assets/styles/brand.css?v=20260814-two-tone">
-    <link rel="stylesheet" href="/assets/styles/markdown.css?v=20260820-shared">
-    <link rel="stylesheet" href="/assets/styles/product-continuation.css?v=20260820-modscan">
+    <link rel="stylesheet" href="/assets/styles/markdown.css?v=20260821-seamless-handoff-v3">
+    <link rel="stylesheet" href="/assets/styles/product-continuation.css?v=20260821-seamless-handoff-v2">
     <script src="/assets/scripts/site-motion.js?v=20260818-dynamic-grid" defer></script>
   </head>
   <body data-page-family="directory" data-page="modscan">
@@ -78,7 +79,9 @@
       <header class="home-toolbar">
         <span aria-hidden="true">[ README.md ]</span>
         <nav class="home-pagination product-return" aria-label="Product navigation">
-          <a href="https://kaizosha.org/">[ ← KAIZŌSHA ]</a>
+          <a href="https://hush.kaizosha.org/" data-product-previous aria-label="Open the previous Kaizōsha product, Hush">[ PREV ]</a>
+          <span aria-hidden="true">/</span>
+          <a href="https://morph.kaizosha.org/" data-product-next aria-label="Open the next Kaizōsha product, Morph">[ NEXT ]</a>
         </nav>
       </header>
 
@@ -108,16 +111,14 @@
               <div class="product-cell__detail" id="product-detail-modscan">
                 <p class="product-cell__eyebrow" aria-hidden="true">product / 04</p>
                 <p class="product-cell__description">
-                  See where node_modules went. Remove what you no longer need.
+                  A keyboard-first terminal interface for finding node_modules, comparing their size and age, and reclaiming disk space.
                 </p>
-                <p class="product-cell__meta">Node.js CLI / JavaScript + Blessed / v1.0.1</p>
+                <p class="product-cell__meta">Node.js CLI / JavaScript + Blessed / Available</p>
                 <div class="product-cell__actions">
                   <a href="https://kaizosha.org/" aria-label="Close ModScan and return to the Kaizōsha product directory">[ CLOSE ]</a>
-                  <a class="product-cell__explore" href="#install" aria-label="Jump to ModScan installation">[ INSTALL ↓ ]</a>
-                  <a href="https://www.npmjs.com/package/modscan" target="_blank" rel="noopener noreferrer" aria-label="Open ModScan on npm in a new tab">[ NPM ↗ ]</a>
+                  <a class="product-cell__explore" href="#about" aria-label="Explore ModScan details">[ EXPLORE ↗ ]</a>
                 </div>
-                <a class="product-cell__warning" href="#deletion">[ CAUTION / D OR dd DELETES IMMEDIATELY ↓ ]</a>
-                <a class="product-cell__scroll-cue product-cue" href="#about">[ SCROLL TO OPEN ModScan ↓ ]</a>
+                <a class="product-cell__scroll-cue product-cue" href="#about" data-product-cue>[ SCROLL TO OPEN ModScan ↓ ]</a>
               </div>
             </div>
 
@@ -224,7 +225,74 @@
         </article>
       </div>
 
-      <script src="/assets/scripts/product-continuation.js?v=20260820-modscan"></script>
+      <script>
+        (() => {
+          const root = document.documentElement;
+
+          try {
+            const allowedSlots = new Set([
+              "top-left",
+              "top-right",
+              "bottom-left",
+              "bottom-right",
+            ]);
+            const main = document.querySelector(".home-main[data-default-slot]");
+            const currentUrl = new URL(window.location.href);
+            const requestedSlot = currentUrl.searchParams.get("slot");
+            const requestedScroll = Number.parseFloat(
+              currentUrl.searchParams.get("scroll") ?? "",
+            );
+            const defaultSlot = main?.dataset.defaultSlot;
+
+            if (
+              main &&
+              allowedSlots.has(requestedSlot) &&
+              allowedSlots.has(defaultSlot)
+            ) {
+              const activeCell = main.querySelector(".product-cell.is-active");
+              const previousSlot = activeCell?.dataset.productSlot;
+              const destinationCell = main.querySelector(
+                `.product-cell[data-product-slot="${requestedSlot}"]`,
+              );
+
+              if (
+                activeCell &&
+                destinationCell &&
+                previousSlot !== requestedSlot
+              ) {
+                destinationCell.dataset.productSlot = previousSlot;
+                activeCell.dataset.productSlot = requestedSlot;
+              }
+
+              main.dataset.activeSlot = requestedSlot;
+            }
+
+            const scrollRegion = main?.querySelector(".product-scroll, .together-scroll");
+
+            if (
+              scrollRegion &&
+              Number.isFinite(requestedScroll) &&
+              requestedScroll > 0
+            ) {
+              scrollRegion.scrollTo({ top: requestedScroll, behavior: "instant" });
+            }
+
+            const cue = main?.querySelector("[data-product-cue]");
+            const productName = main?.dataset.activeProduct ?? "product";
+
+            if (cue) {
+              cue.textContent = window.matchMedia(
+                "(hover: hover) and (pointer: fine)",
+              ).matches
+                ? `[ SCROLL TO OPEN ${productName} ↓ ]`
+                : `[ SWIPE UP TO OPEN ${productName} ↑ ]`;
+            }
+          } finally {
+            root.classList.remove("product-page-booting");
+          }
+        })();
+      </script>
+      <script src="/assets/scripts/product-continuation.js?v=20260821-seamless-handoff-v4"></script>
 
       <a class="home-logo is-ready" href="https://kaizosha.org/" aria-label="Return to Kaizōsha">
         <span class="brand-lockup" aria-hidden="true">
@@ -237,15 +305,15 @@
       </a>
 
       <footer class="home-statusbar">
-        <nav class="home-legal" aria-label="ModScan pages">
-          <a href="/privacy" aria-label="ModScan privacy">
-            <span class="home-legal__full">[ PRIVACY ]</span>
-            <span class="home-legal__compact" aria-hidden="true">[ P ]</span>
+        <nav class="home-legal" aria-label="Company pages">
+          <a href="https://kaizosha.org/terms" aria-label="Terms">
+            <span class="home-legal__full">[ TERMS ]</span>
+            <span class="home-legal__compact" aria-hidden="true">[ T ]</span>
           </a>
           <span aria-hidden="true">/</span>
-          <a href="https://github.com/Kaizosha/modscan" target="_blank" rel="noopener noreferrer" aria-label="ModScan source on GitHub">
-            <span class="home-legal__full">[ SOURCE ↗ ]</span>
-            <span class="home-legal__compact" aria-hidden="true">[ S ↗ ]</span>
+          <a href="https://kaizosha.org/privacy" aria-label="Privacy">
+            <span class="home-legal__full">[ PRIVACY ]</span>
+            <span class="home-legal__compact" aria-hidden="true">[ P ]</span>
           </a>
           <span aria-hidden="true">/</span>
           <a href="https://kaizosha.org/contact" aria-label="Contact Kaizōsha">
@@ -253,7 +321,7 @@
             <span class="home-legal__compact" aria-hidden="true">[ C ]</span>
           </a>
         </nav>
-        <span aria-hidden="true">004 / MODSCAN / V1.0.1</span>
+        <span aria-hidden="true">001 / KAIZŌSHA / EOF</span>
       </footer>
     </main>
   </body>
